@@ -1,4 +1,4 @@
-**IN PROGRESS -> Finished up until Chapter5**
+**IN PROGRESS -> Finished up until Chapter6**
 
 # LBAC in Swift
 This repo is an attempt to learn how compilers work by rewriting Jack W. Crenshaw's [Let's Build a Compiler in Swift.](http://www.compilers.iecc.com/crenshaw/)
