@@ -21,6 +21,8 @@ import Foundation
  # Constant Declarations
  */
 let TAB : Character = "\t"
+let LF = "\n"
+let whiteChars: [Character] = [" ", TAB]
 
 /*:
  # The Lookahead Buffer
