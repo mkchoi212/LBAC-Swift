@@ -235,7 +235,7 @@ textbooks make it seem so hard?"  Good question.
 
 Recently, I've gone back and looked at some of those texts again,
 and even bought and read some new ones.  Each  time,  I come away
-with the same feeling: These guys have made it seem too hard.
+with the same feeling: bThese guys have made it seem too hard.
 
 What's going on here?  Why does the whole thing seem difficult in
 the texts, but easy to us?    Are  we that much smarter than Aho,
