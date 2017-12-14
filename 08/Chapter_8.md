@@ -30,6 +30,14 @@ If you think the series have been easy so far... guess what??
 
 >  **IT WILL REMAIN EASY BECAUSE THERE ARE NO HARD PARTS 🎉**🎉🎉
 
+Above are the constructs we will build. But here are the two languages we will build in future installments
+
+### TINY
+A minimal language on the order of Tiny BASIC or Tiny C. It won't be very practical, but  it will have enough power to let you write and run real programs
+
+### KISS 
+KISS is intended to be a systems programming language. It won't have strong typing or fancy data structures, but it will support most of the things I want to do with a higher-order language, except perhaps writing compilers.
+
 ## Cool. But why do textbooks make it seem so hard?
 Good question. Here are some of my guesses
 
