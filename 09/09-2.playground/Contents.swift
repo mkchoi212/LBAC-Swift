@@ -2,15 +2,10 @@ import Foundation
 /*:
  # LBaC
  # Part IX: A Top View
- ## Part 1: Up VS. Down
- The program we have developed so far has a decidedly *bottom-up flavor*. For example, in the case of expression parsing, we began with the lowest level constructs and worked our way up to more complex expressions.
+ ## Part 2: Fleshing it Out
+ To flesh out the compiler, we only need to make the features of the language, one by one. We will first start with empty procedures and add details to them incrementally.
  
- So now, we will build a translator for a subset of the KISS language, which we will call TINY in a **top-down fashion**.
- 
- ### Top-Level
- Biggest mistake people make in a top-down design is *not starting at the true top.* For our program, we will do it right by looking at the three possible top-level recognizers.
- 
- First recognizer is `prog()`, which is the progam itself
+ Let's start by processing the `doBlock`.
  */
 
 let TAB : Character = "\t"
@@ -30,7 +25,6 @@ extension Buffer {
         getChar()
     }
     
-    /// Advance to the next character in the buffer
     mutating func getChar() {
         let i = input.index(input.startIndex, offsetBy: idx)
         
@@ -43,37 +37,31 @@ extension Buffer {
     }
 }
 
-/*:
- # Utility Functions
- */
-
-/// Report an Error
 func error(msg: String) {
     print("Error: \(msg).")
 }
 
-/// Report error and halt
 func abort(msg: String) {
     error(msg: msg)
     exit(EXIT_FAILURE)
 }
 
-/// Report what was expected
 func expected(_ s: String) {
     abort(msg: "\(s) expected")
 }
 
-/// Output a String with tab
 func emit(msg: String) {
     print("\(TAB) \(msg)", separator: "", terminator: "")
 }
 
-/// Output a String with tab and CRLF
 func emitLine(msg: String) {
     print("\(TAB) \(msg)")
 }
 
-/// Recognize an alpha character
+func postLabel(_ label: String) {
+    print("\(label):", terminator:"")
+}
+
 func isAlpha(_ c: Character?) -> Bool {
     if let c = c, "a"..."z" ~= c || "A"..."Z" ~= c {
         return true
@@ -82,7 +70,6 @@ func isAlpha(_ c: Character?) -> Bool {
     }
 }
 
-/// Recognize a decimal digit
 func isDigit(_ c: Character?) -> Bool {
     if let c = c, "0"..."9" ~= c {
         return true
@@ -91,16 +78,10 @@ func isDigit(_ c: Character?) -> Bool {
     }
 }
 
-/// Recognize an alphanumerical digit
 func isAlnum(_ c: Character?) -> Bool {
     return isAlpha(c) || isDigit(c)
 }
 
-/*:
- # Compiler Logic Functions
- */
-
-/// Match a specific input character
 func match(_ c: Character) {
     if LOOK.cur == c {
         LOOK.getChar()
@@ -109,7 +90,6 @@ func match(_ c: Character) {
     }
 }
 
-/// Get an identifier
 func getName() -> Character {
     if !isAlpha(LOOK.cur) {
         expected("Name")
@@ -119,7 +99,6 @@ func getName() -> Character {
     return upper
 }
 
-/// Get a number
 func getNum() -> Character {
     if !isDigit(LOOK.cur) {
         expected("Integer")
@@ -128,40 +107,51 @@ func getNum() -> Character {
     return LOOK.cur!
 }
 
-/// Write the prolog
+func declarations() {
+    
+}
+
+
+func statements() {
+    
+}
+
+/*:
+ ## The doBlock
+ doBlock just folows what a block should look like. Declarations followed by statements.
+ 
+ The insertion of label via `postLabel` has to do with the operation of SK*DOS. Unlike most OS's, SK*DOS allows the entry point to the main program to be anywhere in the program. All you have to do is give that point a name.
+ 
+ `postLabel` does this by putting that name just before the first `statement`.
+ 
+ > `declarations` and `statements` are dummy functions for now. We will make them in the next part
+ */
+func doBlock(name: Character) {
+    declarations()
+    postLabel(String(name))
+    statements()
+}
+
 func prolog() {
     emitLine(msg: "WARMST EQU $A01E")
 }
 
-/// Write the epilog
 func epilog(_ name: Character) {
     emitLine(msg: "DC WARMST")
     emitLine(msg: "END \(name)")
 }
 
 /*:
- ## prog
- `prolog` and `epilog` perform whatever is required to let the program interface with the OS; they will be VERY OS-dependent.
- 
- Until now, we have been emitting code for a 68000 which runs on SK*DOS and its too late to change... so we will stick to it
+ > Note that prog now handles `doBlock`
  */
-/// Parse and translate a program where `p` stands for `PROGRAM`
 func prog() {
     match("p")
     let name = getName()
     prolog()
+    doBlock(name: name)
     match(".")
     epilog(name)
 }
-
-/*:
- ## Few things to note
- Only legal input so far is `px.` where x is a single letter indicating the program's name
- 
- Not too impressive, I know. But note that the output is a **COMPLETE EXECUTABLE PROGRAM**.
- 
- This is **⚠️VERY IMPORTANT⚠️** because the nice feature of the top-down approach is that at any stage, you can compile a subset of the language and get a program that will run! From here, we only need to add features.
- */
  
 func initialize() -> Buffer {
     var LOOK = Buffer(idx: 0, cur: nil, input: "px.")
