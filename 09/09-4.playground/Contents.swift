@@ -218,3 +218,13 @@ func initialize() -> Buffer {
 
 var LOOK = initialize()
 prog()
+
+/*:
+ ## End of Part 4
+ 
+ At this point, we would have to expand `statements()` in order to make the compiler somewhat useful. The expansion would include things like `if/case/while/for` statements.
+ 
+ But notice that we have already gone through this process of parsing assignment and control structures in previous chapters. **This is where the top level meets our previous bottom-up approach.** Constructs will be little different now but the differences are very minor.
+ 
+ > So, **we will now stop trying to write a Pascal compiler.** Instead, we will now spend time making a **C Compiler**. Say whuuuutttt?
+ */

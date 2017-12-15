@@ -1,5 +1,5 @@
 ![stability-wip](https://img.shields.io/badge/status-work_in_progress-lightgrey.svg)
-![stability-done](https://img.shields.io/badge/complete-chapter_1~7.5-blue.svg)
+![stability-done](https://img.shields.io/badge/complete-chapter_1~9-blue.svg)
 
 
 # LBaC in Swift
