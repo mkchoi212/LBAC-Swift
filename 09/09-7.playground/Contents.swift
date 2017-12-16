@@ -2,17 +2,16 @@ import Foundation
 /*:
  # LBaC
  # Part IX: A Top View
- ## Part 6: C
+ ## Part 7: C (continued)
 
- The big problem with C is that first two parts of the declaration for data and functions can be the same
+ Let's make `getClass` and `getType` do something more interesting...
  
- ```c
- int this_is_a_var ...
- int this_is_a_func ...
- ```
- 
- Because of this property, we can't use our existing recursive-descent parser on it. But we can transform it into one that is suitable.
+ > Global variables `CLASS`, `SIGN` and `TYPE` have been created
  */
+
+var CLASS : Character!
+var SIGN : Character!
+var TYPE: Character!
 
 let TAB : Character = "\t"
 let LF = "\n"
@@ -113,27 +112,57 @@ func getNum() -> Character {
     return LOOK.cur!
 }
 
+/*:
+ ### getClass()
+ Three single characters are used to represent storage classes
+ - a - `auto`
+ - x - `extern`
+ - s - `static`
+ 
+ We are missing `register` and `extern` but we will ignore them for now.
+ 
+ > Default class is `a` or `auto`
+ */
 func getClass() {
+  if let cur = LOOK.cur, ["a", "x", "s"].contains(cur) {
+    CLASS = cur
     LOOK.getChar()
+  } else {
+    CLASS = "a"
+  }
 }
 
+/*:
+ ### getType()
+ 
+ We will do something very similar to `getClass` with `getType`
+  - u - `unsigned`
+  - s - `signed`
+  - i - `int`
+  - l - `long`
+  - c - `char`
+ */
 func getType() {
+  TYPE = " "
+  if let cur = LOOK.cur, cur == "u" {
+    SIGN = "u"
+    TYPE = "i"
     LOOK.getChar()
+  } else {
+    SIGN = "s"
+  }
+  
+  if let cur = LOOK.cur, ["i", "l", "c"].contains(cur) {
+    TYPE = cur
+    LOOK.getChar()
+  }
 }
 
 func topDecl() {
     LOOK.getChar()
 }
 
-/*:
- The trick we will use is this...
- > We will build a parsing routine for class and type definitions and have them store away their findings, **all without knowing wheter a function or a data declaration is being processed.**
- 
- Notice that all three functions are dummy functions that call `getChar()`
- */
 func prog() {
-    // The book's while loop runs until `cur == ^Z`
-    // but since we are in Playground, we will have to satisfy with nil-checking
     while LOOK.cur != nil {
       getClass()
       getType()
@@ -141,8 +170,17 @@ func prog() {
     }
 }
 
+/*:
+ `sih == static int h`
+ 
+ We have long ways to go.
+ 
+ For example, there are many complexities involving just the definition of a type, before we can start talking about actual data/function names.
+ 
+ > But for now, we will ignore all of those complexities; for the sake of swift learning!
+ */
 func initialize() -> Buffer {
-    var LOOK = Buffer(idx: 0, cur: nil, input: "")
+    var LOOK = Buffer(idx: 0, cur: nil, input: "sih")
     LOOK.getChar()
     return LOOK
 }
