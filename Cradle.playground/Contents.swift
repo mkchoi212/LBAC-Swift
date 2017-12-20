@@ -153,7 +153,7 @@ func getNum() -> Character {
  `initialize()` serves to "prime the pump" by reading the
  first character from `input`. It uses the `Buffer` struct's `getChar()`.
 
- This is the one thing you should be worried about in this chapter!
+ > This is the one thing you should try to understand before moving to chapter 1!
  */
 func initialize() -> Buffer {
     var LOOK = Buffer(idx: 0, cur: nil, input: "3")
