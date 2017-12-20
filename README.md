@@ -1,8 +1,17 @@
-![stability-wip](https://img.shields.io/badge/status-work_in_progress-lightgrey.svg)
-![stability-done](https://img.shields.io/badge/complete-chapter_1~10-blue.svg)
+<p align="center">
+    <h1 align="center">📖🤸🤸📖</h1>
+    <h3 align="center">LBAC Swift</h3>
+<p align="center">
+    "Let's Build a Compiler" translated to Swift Playgrounds
+    <br>
+    <br>
+    <img src="https://img.shields.io/badge/complete-chapter_1~10-blue.svg">
+    <img src="https://img.shields.io/badge/status-work_in_progress-lightgrey.svg">
+  </p>
+</p>
+<br>
 
-# Let's Build a Compiler; in Swift!
-This repo is an attempt to learn how compilers work by rewriting Jack W. Crenshaw's [Let's Build a Compiler](http://www.compilers.iecc.com/crenshaw/) book in Swift.
+This repo is an attempt to learn how compilers work by rewriting Jack W. Crenshaw's [Let's Build a Compiler](http://www.compilers.iecc.com/crenshaw/) book into Swift playgrounds.
 
 ## Repo Structure
 The original book is divided into 16 chapters and if you haven't noticed already, there are also 16 directories in this repo. Each repo contains the original text (`.txt`) along with a Playground file with the Swift implementation of the code in the corresponding chapter.
