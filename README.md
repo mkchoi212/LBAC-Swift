@@ -11,26 +11,27 @@
 </p>
 <br>
 
-This repo is an attempt to learn how compilers work by rewriting Jack W. Crenshaw's [Let's Build a Compiler](http://www.compilers.iecc.com/crenshaw/) book into Swift playgrounds.
+This repo is an attempt to learn how compilers work by translating Jack W. Crenshaw's [Let's Build a Compiler](http://www.compilers.iecc.com/crenshaw/) book into Swift Playgrounds.
 
-## Repo Structure
-The original book is divided into 16 chapters and if you haven't noticed already, there are also 16 directories in this repo. Each repo contains the original text (`.txt`) along with a Playground file with the Swift implementation of the code in the corresponding chapter.
+## 🗺️ How to Navigate
+The original book is divided into 16 chapters and if you haven't noticed already, there are also 16 Playground files in this repo. 
 
-- 01
-- 02
-- 03
-  - `tutor3.txt`
-  - `03-1.playground`
-  - `03-2.playground`
-  - ...
+**Each Playground file represents a chapter in the book**. However, because fitting an entire chapter into a single Playground file would be impractical, each chapter has been divided into several "Pages".
 
-Notice that each chapter has multiple playground files, labeled with as `[CHAPTER]-[SECTION].playground`. This is because each chapter has been broken down into mini-chapters. This makes it easier for you to follow along with the book and understand the material by dividing the building process into to small chunks.
+### .playground Structure
+
+A `.playground` file is actually composed of *three* directories.
+
+1. `Pages`  - this is where all the individual pages of a book resides in
+2. `Sources` - `Cradle.swift`, which contains all the boilerplate code used throughout the book is contained here
+3. `Resource` - the original LBAC text file `tutor(n).txt` , is contained here
+
+> If you can't seem to find these directories after opening your `.playground` file, press `⌘ + 0` to show the Navigator (left panel).
 
 ## ☠️☠️☠️
-1. The original Let's Build a Compiler (LBaC) was written in Turbo Pascal, a very popular language at the time. Pascal is very different from Swift and because of this, "literally" converting Pascal code into Swift won't be "Swifty". 
-2. To make the code as "Swifty" as possible, I have taken the liberty to make some changes in the code.
-3. This has turned out to be more time consuming than I have imagined in the beginning. Therefore, **out of the 16 chapters, 10 have been completed so far**; feel free to continue on from where I have left off 🏃‍♂️
-
+- The original Let's Build a Compiler (LBaC) was written in Turbo Pascal, a very popular language at the time. Pascal is very different from Swift and because of this, "literally" converting Pascal code into Swift is quite unnatural.
+- To make the code as "Swifty" as possible, I have taken the liberty to make some changes in the code. Please feel free to offer suggestions on making the code even "Swifty-er"
+- This has turned out to be more time consuming than I have imagined in the beginning. Therefore, **out of the 16 chapters, 10 have been completed so far**; feel free to continue on from where I have left off 🏃‍♂️
 
 
 ## ✋ Contributing
