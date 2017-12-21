@@ -1,136 +1,71 @@
-import Foundation
-
+//: [Previous](@previous)
 /*:
  # LBaC
- # Part III: More Expressions
- ## Multi-Character Tokens
+ # Chapter III: More Expressions
+ ## Part 4: Multi-Character Tokens
  
  Everything so far has been single-character tokens.
- The extension is fairly easy to do and in the process, we will
- also provide support for embedded white space. Finally! 😃
+ The extension to multi-character tokens is fairly easy to do and in the process, we will also provide support for embedded white-space.
+ Finally! 😃
  
  > Note that this is just to show that multi-character tokens are possible.
- As we go on, we will use the single-character version to keep things
+ >
+ > As we go on, we will use the single-character version to keep things
  as **simple as possible**
  
  ## Additional Notes
- Most compilers do the onput stream parsing in a seperate module called
- the **lexical scanner**. The idea is that the scanner is the one that deals
- with character input to generate tokens of the stream.
+ Most compilers do their input stream parsing in a seperate module called the **lexical scanner**.
+ The idea is that the scanner is the part of the compiler responsible for dealing with character input to generating tokens of the stream.
  
- We could do that here but it's much easier to just play with `getName` and
- `getNum` to get what we need.
+ We could do that here but it's much easier to just play with `getName` and `getNum` to get what we need.
  */
 
-let TAB: Character = "\t"
-let CR: Character = "\r\n"
-
-let whiteChars: [Character] = [" ", TAB]
-let addOp : [Character] = ["+", "-"]
-let mulOp : [Character] = ["*", "/"]
-
-struct Buffer {
-    var idx: Int
-    var cur: Character?
-    let input: String
-}
-
-extension Buffer {
-    init() {
-        idx = 0
-        input = readLine()!
-    }
-    
-    mutating func getChar() {
-        let i = input.index(input.startIndex, offsetBy: idx)
-        
-        if i == input.endIndex {
-            cur = nil
-        } else {
-            cur = input[i]
-            idx += 1
-        }
-    }
-}
-
-func error(msg: String) {
-    print("Error: \(msg).")
-}
-
-func abort(msg: String) {
-    error(msg: msg)
-    exit(EXIT_FAILURE)
-}
-
-func expected(_ s: String) {
-    abort(msg: "\(s) expected")
-}
-
-func emit(msg: String) {
-    print("\(TAB) \(msg)", separator: "", terminator: "")
-}
-
-func emitLine(msg: String) {
-    print("\(TAB) \(msg)")
-}
-
-func match(_ c: Character) {
-    if LOOK.cur != c {
-        expected("\(c)")
-    } else {
-        LOOK.getChar()
-        skipWhite()
-    }
-}
-
 /*:
- ## Handling whitespaces
- The key to handling white space is to come up with a simple rule
- and enfore that rule everywhere.
+ ### skipWhite()
+ The key to handling white space is to come up with a *simple rule and enfore that rule everywhere.*
  
  So far, we assumed that after each parsing action, a useful character was
  waiting to be parsed. This means that we need a routine that skips over
- the whitespaces and leave the next non-whitespace character in `LOOK.cur`
- 
- We just need to fix up `getName()`, `getNum()`, `match()`, and `initialize()`
+ the whitespaces and leaves the next non-whitespace character in `LOOK.cur`
  */
-
-/// Eat up all the whitespaces
 func skipWhite() {
     while isWhite(LOOK.cur) {
         LOOK.getChar()
     }
 }
 
+let whiteChars: [Character] = [" ", TAB]
+
 func isWhite(_ c: Character?) -> Bool {
     guard let c = c else { return false }
     return whiteChars.contains(c)
 }
 
-func isAlpha(_ c: Character?) -> Bool {
-    if let c = c, "a"..."z" ~= c || "A"..."Z" ~= c {
-        return true
+/*:
+ ### match()
+ `match` now calls `skipWhite` every time it advances a character
+ */
+func match(_ c: Character) {
+    if LOOK.cur != c {
+        expected("\(c)")
     } else {
-        return false
+        LOOK.getChar()
+        // Skip remaining white-spaces after matching
+        skipWhite()
     }
-}
-
-func isDigit(_ c: Character?) -> Bool {
-    if let c = c, "0"..."9" ~= c {
-        return true
-    } else {
-        return false
-    }
-}
-
-func isAlphaNum(_ c: Character?) -> Bool {
-    return isAlpha(c) || isDigit(c)
 }
 
 /*:
- ## Rules of an identifier
- 1. First char must be a letter
- 2. Rest has be to `isAlphaNum`
+ ### getName()
+ > `getName` now returns a `String` instead of a `Character`
+ 
+ **We must now enfore rules of a valid variable name**
+ 1. First character must be a letter
+ 2. The rest has be to `isAlphaNum`
+ ```
+ foobar1234 ✅
+ 1234foobar 🚫
+ ```
  */
 func getName() -> String {
     if !isAlpha(LOOK.cur) {
@@ -144,21 +79,28 @@ func getName() -> String {
         LOOK.getChar()
     }
     
+    // Skip white-spaces at the end
     skipWhite()
     return tokens
 }
 
+/*:
+ ### getNum()
+ Same modifications to `getName` have been made here to parse multi-digit numbers!
+ */
 func getNum() -> String {
     if !isDigit(LOOK.cur) {
         expected("Name")
     }
     
     var value = ""
+    // Loop and gather tokens
     while let cur = LOOK.cur, isDigit(cur) {
         value += String(cur)
         LOOK.getChar()
     }
     
+    // Skip white-spaces at the end
     skipWhite()
     return value
 }
@@ -184,8 +126,7 @@ func factor() {
         match(")")
     } else if isAlpha(cur) {
         emitLine(msg: "MOVE \(getName())(PC),D0")
-    }
-    else {
+    } else {
         emitLine(msg: "MOVE #\(getNum()),D0")
     }
 }
@@ -234,8 +175,7 @@ func term() {
 
 func expression() {
     guard let cur = LOOK.cur else { return }
-    
-    // Place imaginary 0 by clearing D0 register
+
     if addOp.contains(cur) {
         emitLine(msg: "CLR D0")
     } else {
@@ -270,7 +210,6 @@ func initialize() -> Buffer {
     return LOOK
 }
 
-/// Main Program
 var LOOK = initialize()
 assignment()
 
@@ -279,9 +218,13 @@ if let cur = LOOK.cur, cur != CR {
 }
 
 /*:
- The parser is complete. It's got every feature we could put in a
- one-line "compiler".
+ ### So far...
+ The parser is complete 🙌
  
- In the next chapter, we will continue talking about expressions
- but will also talk about interpreters as opposed to compilers.
+ It's got every feature we could put in a one-line "compiler".
+ 
+ In the next chapter, we will continue talking about expressions but will also talk about interpreters as opposed to compilers.
+ 
+ ---
+ ### End of Chapter 2 👋
  */
