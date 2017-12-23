@@ -4,7 +4,9 @@
  # Chapter VI: Boolean Expressions
  ## Part 3: Relation Expressions
  
- Here, we are going to **fully implement `relation` and try to connect arithmetic and boolean expressions together.**
+ > **Get excited. This is where everything we have been doing up to this point starts to come together to make something beautiful.**
+ 
+ We are now going to **fully implement `relation`** and try to connect arithmetic and boolean expressions together.
  
  A relational operator can be one of the following `["=", "#", "<", ">"]`. IOW, it's an operator that allows you to express the *relation* between two things.
  

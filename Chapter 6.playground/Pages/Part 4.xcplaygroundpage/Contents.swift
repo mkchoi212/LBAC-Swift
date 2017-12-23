@@ -4,12 +4,11 @@
  # Chapter VI: Boolean Expressions
  ## Part 4: Merging with control constructs
  
- Ok... now we are going to merge the code we previously wrote to deal with control constructs with the boolean expression parsing code we just wrote.
+ Here, we are going to merge the code we previously wrote to support control constructs with the boolean expression parsing code have been writing.
  
  All we are going to do is the following
  1. Copy and paste the old control construct parsing code from `Chapter 5/Part 9.playground`
  2. Replace the dummy function `condition` in it with our spanking new `boolExpression`
- 
  
  It's going to look like there is **a lot** of new code but you have seen all this before. So take your time, and walk through memory lane to bring back the good times you've had with control constructs.
  */

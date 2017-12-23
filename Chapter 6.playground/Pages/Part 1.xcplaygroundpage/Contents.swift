@@ -1,4 +1,3 @@
-
 /*:
  # LBaC
  # Chapter VI: Boolean Expressions
