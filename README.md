@@ -1,5 +1,5 @@
 <p align="center">
-     <img src="./header.png">
+     <img src="./assets/header.png">
     <h3 align="center">LBAC Swift</h3>
 <p align="center">
     "Let's Build a Compiler" translated to Swift Playgrounds
